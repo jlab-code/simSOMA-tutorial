@@ -1,0 +1,28 @@
+# Temporary/editor files
+.DS_Store
+*~
+.vscode/
+.idea/
+
+# Python/cache files
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Pandoc/LaTeX/HTML temporary files
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*_files/
+
+# Optional generated PDF or local exports
+*.pdf
+
+# Local archives
+*.zip
+*.tar.gz
+*.tgz

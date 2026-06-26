@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>simSOMA tutorial</title>
+  <style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">@page {
+size: A4;
+margin: 18mm 17mm 18mm 17mm;
+}
+body {
+font-family: "Liberation Sans", Arial, sans-serif;
+font-size: 10.5pt;
+line-height: 1.35;
+color: #111111;
+}
+h1 {
+font-size: 20pt;
+font-weight: 700;
+margin-top: 0;
+margin-bottom: 0.65em;
+}
+h2 {
+font-size: 14pt;
+font-weight: 700;
+margin-top: 1.45em;
+margin-bottom: 0.45em;
+}
+h3 {
+font-size: 11.5pt;
+font-weight: 700;
+margin-top: 1.1em;
+margin-bottom: 0.35em;
+}
+p {
+margin-top: 0.35em;
+margin-bottom: 0.55em;
+}
+ul, ol {
+margin-top: 0.35em;
+margin-bottom: 0.65em;
+}
+code {
+font-family: "Liberation Mono", Consolas, monospace;
+font-size: 0.92em;
+}
+pre {
+background: #f4f4f4;
+border: 1px solid #dddddd;
+border-radius: 3px;
+padding: 0.55em 0.7em;
+margin-top: 0.45em;
+margin-bottom: 0.75em;
+font-family: "Liberation Mono", Consolas, monospace;
+font-size: 8.6pt;
+line-height: 1.22;
+white-space: pre-wrap;
+overflow-wrap: break-word;
+break-inside: avoid;
+page-break-inside: avoid;
+}
+pre code {
+font-size: inherit;
+}
+table {
+border-collapse: collapse;
+width: 100%;
+margin-top: 0.6em;
+margin-bottom: 0.8em;
+}
+th, td {
+border: 1px solid #dddddd;
+padding: 0.35em 0.45em;
+vertical-align: top;
+}
+th {
+background: #f0f0f0;
+font-weight: 700;
+}
+hr {
+border: none;
+border-top: 1px solid #cccccc;
+margin-top: 1.4em;
+margin-bottom: 1.4em;
+}
+</style>
+</head>
+<body>
+<h1 id="simsoma-tutorial">simSOMA tutorial</h1>
+<p>This tutorial explains how to install and run <code>simSOMA</code>
+from the GitHub repository. It is intended for users who want
+copy-and-paste commands for a local Linux machine or for a simple
+cluster login node using <code>tmux</code>. The repository contains the
+simulator code, run scripts, example configuration files, and example
+topology inputs. Simulation outputs are generated locally when the
+pipeline is run; they are not part of the repository.</p>
+<p>The workflow has eight steps:</p>
+<ol type="1">
+<li>Clone or update the GitHub repository.</li>
+<li>Set up the Python environment.</li>
+<li>Prepare a topology JSON file, either directly or by converting
+branch/organ CSV files.</li>
+<li>Prepare a simulation config JSON file.</li>
+<li>Run the simulation locally or on a cluster.</li>
+<li>Inspect the output tables.</li>
+<li>Optionally transform VAF spectra into observation-model
+outputs.</li>
+<li>Optionally extract fixed, intermediate, private, and sharedness
+statistics.</li>
+</ol>
+<p>All commands below assume that they are run from the top-level
+<code>simSOMA</code> repository folder unless stated otherwise.</p>
+<hr />
+<h2 id="get-the-repository-from-github">1. Get the repository from
+GitHub</h2>
+<p>Clone the repository once on each machine where you want to run
+<code>simSOMA</code>. A clone is a local working copy of the GitHub
+repository. It contains the code and example files needed to run the
+simulator.</p>
+<p>Using SSH:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/Projects&quot;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/Projects&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:jlab-code/simSOMA.git</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> simSOMA</span></code></pre></div>
+<p>Using HTTPS:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/Projects&quot;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/Projects&quot;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/jlab-code/simSOMA.git</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> simSOMA</span></code></pre></div>
+<p>If the repository is private, the GitHub account or SSH key used on
+that machine must have access to <code>jlab-code/simSOMA</code>.</p>
+<p>For later sessions, return to the same local clone:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/Projects/simSOMA&quot;</span></span></code></pre></div>
+<p>To update an existing clone with the latest version from GitHub,
+run:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull</span></code></pre></div>
+<p>Running <code>simSOMA</code> creates local files such as
+<code>.venv/</code>, <code>simSOMA_output/</code>, and log files. These
+files remain on the machine where the run was performed. They are
+ignored by Git and are not uploaded to GitHub.</p>
+<hr />
+<h2 id="repository-folder-structure">2. Repository folder structure</h2>
+<p>After cloning, the repository has the following layout:</p>
+<pre class="text"><code>simSOMA/
+|-- README.md              # short GitHub landing page
+|-- LICENSE                # MIT license
+|-- CITATION.cff           # citation metadata
+|-- CHANGELOG.md           # release notes
+|-- VERSION                # current software version
+|-- requirements.txt
+|-- requirements.lock.txt
+|-- simSOMA_corefunc/      # simulator source code, including topology checking
+|-- simSOMA_scripts/       # setup, local-run, cluster-run, and utility scripts
+|-- simSOMA_configs/       # simulation configuration files
+|-- simSOMA_inputs/
+|   |-- examples/          # tutorial inputs, quick-test topology, CSV examples
+|   |-- templates/         # reusable topology templates
+|   `-- topologies/        # main simulation topology files
+|-- simSOMA_docs/          # stable design notes
+`-- docs/                  # short repository documentation and links</code></pre>
+<p>During setup and simulation runs, additional local folders are
+created:</p>
+<pre class="text"><code>.venv/                    # project-local Python environment
+simSOMA_output/           # generated simulation outputs</code></pre>
+<p>These folders can be deleted and regenerated. They are not part of
+the distributed code repository.</p>
+<hr />
+<h2 id="set-up-the-python-environment">3. Set up the Python
+environment</h2>
+<p>The same environment setup is used on a laptop and on a cluster.
+<code>simSOMA</code> builds one project-local virtual environment:</p>
+<pre class="text"><code>simSOMA/.venv</code></pre>
+<p>Run the setup script once from the project root:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/01_setup_env.sh</span></code></pre></div>
+<p>The setup script expects Python 3.11. If Python 3.11 is not already
+visible, it tries to use Conda directly, without requiring
+<code>conda init</code>. It creates or reuses the Conda environment
+<code>simsoma311</code>, then builds <code>.venv</code> from that
+Python.</p>
+<p>After setup, the simulator should use:</p>
+<pre class="text"><code>.venv/bin/python</code></pre>
+<p>You normally do not need to activate <code>.venv</code> manually. The
+run scripts use it automatically.</p>
+<p>If your cluster uses a non-standard Conda installation, provide the
+Conda setup file explicitly:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">CONDA_SH</span><span class="op">=</span><span class="va">$HOME</span>/miniconda3/etc/profile.d/conda.sh</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/01_setup_env.sh</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">unset</span> <span class="va">CONDA_SH</span></span></code></pre></div>
+<p>If you want to force a specific Python 3.11 interpreter, use:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="va">PYTHON_BIN</span><span class="op">=</span>/path/to/python3.11 <span class="fu">bash</span> simSOMA_scripts/01_setup_env.sh</span></code></pre></div>
+<p>Check the version and source-file checksums:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/02_version_report.sh</span></code></pre></div>
+<hr />
+<h2 id="check-the-topology">4. Check the topology</h2>
+<p>Before running a simulation, plot the topology JSON and verify that
+the branching structure and sampled organs are correct. This step does
+not require a simulation config file. If you prefer to enter the
+topology as branch and organ CSV tables, first convert those tables to a
+topology JSON as described in the topology-input section below, then run
+the topology check on the generated JSON.</p>
+<p>Run the topology check.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">TOPO</span><span class="op">=</span>simSOMA_inputs/examples/quick_test_2organs_topology.json</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/check_topology.sh <span class="st">&quot;</span><span class="va">$TOPO</span><span class="st">&quot;</span></span></code></pre></div>
+<p>For the quick-test topology, the output is written to a subfolder
+named after the topology JSON file:</p>
+<pre class="text"><code>simSOMA_output/topology_check/quick_test_2organs_topology/topology_plot.png
+simSOMA_output/topology_check/quick_test_2organs_topology/topology_plot.pdf
+simSOMA_output/topology_check/quick_test_2organs_topology/topology_plot_layout.csv
+simSOMA_output/topology_check/quick_test_2organs_topology/topology_plot_report.json</code></pre>
+<p>Open the PNG or PDF. Continue only after checking that the branch
+structure and sampled organs match the intended topology.</p>
+<p>This folder is intentionally keyed by topology filename, not by
+simulation config. Different config files may use the same topology, and
+it is often useful to check a topology before writing any config file.
+Existing files with the same names are overwritten when the same
+topology is checked again. This is intentional: the folder is a live
+check of the current topology JSON file.</p>
+<p>An explicit output folder can still be set with
+<code>OUTDIR</code>:</p>
+<hr />
+<h2 id="anatomy-of-a-topology-input-file">5. Anatomy of a topology input
+file</h2>
+<p>simSOMA uses one standard user-facing topology JSON file. This JSON
+can be written manually, or it can be generated from two simpler CSV
+files. The simulation config always points to the JSON file; the CSV
+converter is only a preprocessing helper.</p>
+<pre class="text"><code>branch/organ CSV files  -&gt;  user-friendly topology JSON  -&gt;  internal step-based topology</code></pre>
+<h3 id="option-a-write-the-user-friendly-topology-json-directly">Option
+A: write the user-friendly topology JSON directly</h3>
+<p>A topology JSON contains two main blocks:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;unit&quot;</span><span class="fu">:</span> <span class="st">&quot;years&quot;</span><span class="fu">,</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;tree_coordinate_max&quot;</span><span class="fu">:</span> <span class="fl">10.0</span><span class="fu">,</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;tree_age&quot;</span><span class="fu">:</span> <span class="fl">10.0</span><span class="fu">,</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;branches&quot;</span><span class="fu">:</span> <span class="ot">[]</span><span class="fu">,</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;events&quot;</span><span class="fu">:</span> <span class="ot">[]</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>The <code>unit</code> field can be <code>steps</code>,
+<code>years</code>, or <code>meters</code>. The coordinates themselves
+are interpreted through the usual config fields
+<code>topology.mapping_unit</code> and
+<code>topology.mapping_rate</code>. For consistency, the JSON
+<code>unit</code> and config <code>mapping_unit</code> should describe
+the same coordinate system.</p>
+<h4 id="branches">Branches</h4>
+<p>Each branch has an <code>id</code>, a <code>parent</code>, a branch
+<code>length</code>, and branch-axis coordinates. The coordinates are
+deliberately general; they may represent time, distance, or another
+branch-axis coordinate.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="st">&quot;B0_trunk&quot;</span><span class="fu">,</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;parent&quot;</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;length&quot;</span><span class="fu">:</span> <span class="fl">10.0</span><span class="fu">,</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;start&quot;</span><span class="fu">:</span> <span class="fl">0.0</span><span class="fu">,</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;end&quot;</span><span class="fu">:</span> <span class="fl">10.0</span><span class="fu">,</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;start_age&quot;</span><span class="fu">:</span> <span class="fl">0.0</span><span class="fu">,</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;end_age&quot;</span><span class="fu">:</span> <span class="fl">10.0</span><span class="fu">,</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;branch_order&quot;</span><span class="fu">:</span> <span class="dv">0</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>Important fields:</p>
+<pre class="text"><code>id            unique branch name
+parent        parent branch ID, or null for the root/trunk
+length        branch length in the topology unit
+start         branch-axis coordinate where this branch begins
+end           branch-axis coordinate where this branch ends
+start_age     backward-compatible plotting alias for start
+end_age       backward-compatible plotting alias for end
+branch_order  branch order used for plotting and summaries</code></pre>
+<p>The <code>start_age</code> and <code>end_age</code> names are
+retained as legacy plotting aliases. They are aliases for the general
+<code>start</code> and <code>end</code> coordinates and do not imply
+that the topology must be measured in years. The topology-check plotter
+labels the axis according to the declared <code>unit</code>.</p>
+<h4 id="events">Events</h4>
+<p>Events specify branch formation or sampled organs. Each event must
+provide either a relative position <code>pos</code> from 0 to 1 along
+the branch, or a branch-local coordinate <code>time</code> in the same
+unit as <code>length</code>. The recommended form is to provide
+<code>pos</code>, because this is unambiguous after CSV conversion.</p>
+<p>A branch event:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;branch&quot;</span><span class="fu">:</span> <span class="st">&quot;B0_trunk&quot;</span><span class="fu">,</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;pos&quot;</span><span class="fu">:</span> <span class="fl">0.5</span><span class="fu">,</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;branch&quot;</span><span class="fu">,</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;target&quot;</span><span class="fu">:</span> <span class="st">&quot;B1_lateral&quot;</span><span class="fu">,</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;position&quot;</span><span class="fu">:</span> <span class="fl">5.0</span><span class="fu">,</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;age&quot;</span><span class="fu">:</span> <span class="fl">5.0</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>An organ event:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;branch&quot;</span><span class="fu">:</span> <span class="st">&quot;B1_lateral&quot;</span><span class="fu">,</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;pos&quot;</span><span class="fu">:</span> <span class="fl">1.0</span><span class="fu">,</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;organ&quot;</span><span class="fu">,</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;target&quot;</span><span class="fu">:</span> <span class="st">&quot;O_lateral_tip&quot;</span><span class="fu">,</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;position&quot;</span><span class="fu">:</span> <span class="fl">10.0</span><span class="fu">,</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;age&quot;</span><span class="fu">:</span> <span class="fl">10.0</span><span class="fu">,</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;terminal_tip&quot;</span><span class="fu">:</span> <span class="kw">true</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>Important fields:</p>
+<pre class="text"><code>branch        branch on which the event occurs
+pos           relative position along that branch, from 0 to 1
+type          &quot;branch&quot; or &quot;organ&quot;
+target        child branch ID or sampled organ ID
+position      absolute branch-axis coordinate used for human readability
+age           backward-compatible plotting alias for position
+terminal_tip  whether an organ is sampled at the end of its branch segment</code></pre>
+<p>For a branch event, <code>target</code> must match the
+<code>id</code> of a branch listed in the <code>branches</code> block.
+The <code>age</code> field is retained as a legacy plotting alias for
+the general <code>position</code> field and does not restrict the
+topology to age or years.</p>
+<h3 id="option-b-enter-the-topology-as-branch-and-organ-csv-files">Option B:
+enter the topology as branch and organ CSV files</h3>
+<p>Many users find it easier to first describe the topology with two CSV
+files. The branch CSV defines branch segments. The organ CSV defines
+sampled organs on those branch segments.</p>
+<p>The recommended branch CSV headers are:</p>
+<pre class="csv"><code>branch_id,parent_id,start,end
+B0_trunk,,0,10
+B1_lateral,B0_trunk,5,10</code></pre>
+<p>The recommended organ CSV headers are:</p>
+<pre class="csv"><code>organ_id,branch_id,position
+O_trunk_tip,B0_trunk,10
+O_lateral_tip,B1_lateral,10</code></pre>
+<p>Here, <code>start</code>, <code>end</code>, and <code>position</code>
+are general coordinates along the same branch axis. They can represent
+years, meters, or another user-defined axis. The CSV files are therefore
+unit-neutral. The biological interpretation is set later by the topology
+JSON <code>unit</code> field and by the config fields
+<code>mapping_unit</code> and <code>mapping_rate</code>.</p>
+<p>For convenience, the converter also accepts older or more informal
+aliases:</p>
+<pre class="text"><code>Branch CSV aliases:
+  id        -&gt; branch_id
+  parent    -&gt; parent_id
+  start_age -&gt; start
+  end_age   -&gt; end
+
+Organ CSV aliases:
+  id     -&gt; organ_id
+  branch -&gt; branch_id
+  age    -&gt; position</code></pre>
+<p>Convert the CSV files to the standard topology JSON with the Python
+converter:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> simSOMA_scripts/convert_topology_csv_to_json.py <span class="dt">\</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--branches</span> simSOMA_inputs/examples/example_topology_branches.csv <span class="dt">\</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--organs</span> simSOMA_inputs/examples/example_topology_organs.csv <span class="dt">\</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--out</span> simSOMA_inputs/examples/example_topology_from_csv.json <span class="dt">\</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--unit</span> years</span></code></pre></div>
+<p>The shell helper provides the same conversion with shorter
+syntax:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/run_convert_topology_csv_to_json.sh <span class="dt">\</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  simSOMA_inputs/examples/example_topology_branches.csv <span class="dt">\</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  simSOMA_inputs/examples/example_topology_organs.csv <span class="dt">\</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  simSOMA_inputs/examples/example_topology_from_csv.json <span class="dt">\</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  years</span></code></pre></div>
+<p>Use <code>meters</code> instead of <code>years</code> if the
+branch-axis coordinates are distances:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/run_convert_topology_csv_to_json.sh <span class="dt">\</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  simSOMA_inputs/examples/example_topology_branches.csv <span class="dt">\</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  simSOMA_inputs/examples/example_topology_organs.csv <span class="dt">\</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  simSOMA_inputs/examples/example_topology_from_csv.json <span class="dt">\</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  meters</span></code></pre></div>
+<p>Then check the generated topology JSON:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="va">TOPO</span><span class="op">=</span>simSOMA_inputs/examples/example_topology_from_csv.json</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/check_topology.sh <span class="st">&quot;</span><span class="va">$TOPO</span><span class="st">&quot;</span></span></code></pre></div>
+<p>Finally, point the usual simulation config to the generated JSON:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="er">&quot;topology&quot;:</span> <span class="fu">{</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;topology_json&quot;</span><span class="fu">:</span> <span class="st">&quot;simSOMA_inputs/examples/example_topology_from_csv.json&quot;</span><span class="fu">,</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;mapping_unit&quot;</span><span class="fu">:</span> <span class="st">&quot;years&quot;</span><span class="fu">,</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;mapping_mode&quot;</span><span class="fu">:</span> <span class="st">&quot;deterministic&quot;</span><span class="fu">,</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;mapping_rate&quot;</span><span class="fu">:</span> <span class="fl">5.0</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>No config-schema changes are required. The converter simply creates
+the same user-friendly JSON format that can also be written
+manually.</p>
+<hr />
+<h2 id="anatomy-of-a-config-json-file">6. Anatomy of a config JSON
+file</h2>
+<p>A simulation config file tells <code>simSOMA</code> which topology to
+use, which parameters to scan, and where outputs should go.</p>
+<p>The quick-test config is:</p>
+<pre class="text"><code>simSOMA_configs/quick_test_2organs.json</code></pre>
+<h3 id="run-block">Run block</h3>
+<div class="sourceCode" id="cb31"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="er">&quot;run&quot;:</span> <span class="fu">{</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;experiment_name&quot;</span><span class="fu">:</span> <span class="st">&quot;quick_test_2organs&quot;</span><span class="fu">,</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;outdir_root&quot;</span><span class="fu">:</span> <span class="st">&quot;simSOMA_output&quot;</span><span class="fu">,</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;seed&quot;</span><span class="fu">:</span> <span class="dv">1</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>Important fields:</p>
+<pre class="text"><code>experiment_name   name of the output folder
+outdir_root       parent output folder; in the Git repository this is `simSOMA_output` in the project root
+seed              base random seed</code></pre>
+<h3 id="topology-block">Topology block</h3>
+<div class="sourceCode" id="cb33"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="er">&quot;topology&quot;:</span> <span class="fu">{</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;topology_json&quot;</span><span class="fu">:</span> <span class="st">&quot;simSOMA_inputs/examples/quick_test_2organs_topology.json&quot;</span><span class="fu">,</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;mapping_unit&quot;</span><span class="fu">:</span> <span class="st">&quot;years&quot;</span><span class="fu">,</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;mapping_mode&quot;</span><span class="fu">:</span> <span class="st">&quot;deterministic&quot;</span><span class="fu">,</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;mapping_rate&quot;</span><span class="fu">:</span> <span class="fl">5.0</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>Important fields:</p>
+<pre class="text"><code>topology_json   path to the topology JSON
+mapping_unit    steps, years, or meters
+mapping_mode    deterministic or poisson
+mapping_rate    self-renewal divisions per topology unit</code></pre>
+<p>If <code>mapping_unit</code> is <code>years</code> or
+<code>meters</code>, <code>mapping_rate</code> is required.</p>
+<h3 id="simulation-block">Simulation block</h3>
+<div class="sourceCode" id="cb35"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="er">&quot;simulation&quot;:</span> <span class="fu">{</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;mode&quot;</span><span class="fu">:</span> <span class="st">&quot;grid_parameter&quot;</span><span class="fu">,</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;n_sim&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;summaries&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;vaf_nbins&quot;</span><span class="fu">:</span> <span class="dv">20</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>The cleaned workflow uses <code>grid_parameter</code> mode. Fixed
+parameters are specified as one-element value lists. Parameter scans are
+specified as multi-value lists.</p>
+<p>Example fixed parameter:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="er">&quot;m&quot;:</span> <span class="fu">{</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;values&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">4</span><span class="ot">]</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>Example parameter scan:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="er">&quot;m&quot;:</span> <span class="fu">{</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;values&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">4</span><span class="ot">,</span> <span class="dv">8</span><span class="ot">,</span> <span class="dv">12</span><span class="ot">]</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h3 id="biological-parameter-reference">Biological parameter
+reference</h3>
+<p>The main scan parameters are stored under
+<code>simulation.modules</code>. Each parameter is written as a JSON
+object with a <code>values</code> list. A one-element list fixes the
+parameter. A multi-value list creates a grid scan over those values.</p>
+<pre class="text"><code>simulation.modules.&lt;module&gt;.&lt;parameter&gt;.values</code></pre>
+<p>For example, this scans three values of <code>m</code> and keeps
+<code>rho</code> fixed:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="er">&quot;self_renewal&quot;:</span> <span class="fu">{</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;m&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;values&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">4</span><span class="ot">,</span> <span class="dv">8</span><span class="ot">,</span> <span class="dv">12</span><span class="ot">]</span> <span class="fu">},</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;rho&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;values&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="fl">0.25</span><span class="ot">]</span> <span class="fu">}</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>The main biological parameters are listed below. This tutorial
+denotes <code>sam_boundary_cells</code> by <code>C</code>, matching the
+notation used in the accompanying manuscript.</p>
+<pre class="text"><code>self_renewal.m
+  Number of long-lived apical stem-cell (ASC) positions in the simulated niche.
+  Manuscript notation: m.
+
+self_renewal.rho
+  ASC turnover parameter. In each self-renewal round, rho is the probability that
+  one symmetric replacement / displacement event occurs. Larger values increase
+  lineage turnover and can increase fixation within the ASC niche.
+  Manuscript notation: rho.
+
+self_renewal.mu_year
+  Legacy implementation field for the mutation input per topology unit. If the
+  topology unit is years, this is the mutation input per year; if the topology
+  unit is meters, it is the mutation input per meter. Internally, simSOMA converts
+  this to a per-division mutation input by dividing by topology.mapping_rate. In
+  the bundled configs, this is usually used as a relative mutation input because
+  the simulator focuses on VAF spectra and sharing patterns.
+  Manuscript notation: mu_unit; internal per-division value: mu_div.
+
+self_renewal.victim_locality
+  Locality of the displaced ASC during replacement. A value of 0 gives globally
+  uniform displacement across the niche. Larger values make displacement more
+  local; value 1 corresponds to nearest-neighbor displacement.
+
+self_renewal.bias_mode
+  How branch-local self-renewal bias is specified. The bundled manuscript configs
+  usually use &quot;fixed&quot;.
+
+self_renewal.branch_bias_value
+  Fixed branch-local bias value when bias_mode is &quot;fixed&quot;. The bundled manuscript
+  configs usually use 0.0, meaning no branch-local bias.
+
+self_renewal.branch_bias_mean
+  Mean branch-local bias when bias_mode uses a drawn bias value.
+
+self_renewal.branch_bias_kappa
+  Concentration parameter for drawn branch-local bias values.
+
+pre_branching.sam_boundary_cells
+  Target number of peripheral/SAM-boundary cells generated before branch or organ
+  founder sampling. This controls the size of the local amplified cell population
+  from which founders are sampled. Current configs require sam_boundary_cells &gt;= m.
+  Manuscript/tutorial notation: C.
+
+branching.branch_precursor_number
+  Requested number of branch founder/precursor cells sampled from the amplified
+  SAM-boundary population to establish a new branch SAM. Conceptually, the
+  realized/effective branch founder count is capped by the requested number, the
+  number of ASC positions, and the SAM-boundary population size. In manuscript
+  notation, this is requested P_b with P_b^eff = min(P_b, m, C). In the current
+  valid configs C &gt;= m, so the driver-level cap min(branch_precursor_number, m)
+  is equivalent. The realized value is recorded as
+  branch_precursor_number_realized_cells.
+
+organ.organ_precursor_number
+  Requested number of organ founder/precursor cells sampled from the amplified
+  SAM-boundary population to establish an organ. The current driver caps the
+  realized value at min(organ_precursor_number, sam_boundary_cells,
+  organ_total_cells). In normal configs this equals the requested value. The
+  realized value is recorded as organ_precursor_number_realized_cells.
+  Manuscript notation: requested P_o.
+
+organ.organ_total_cells
+  Final number of cells in the simulated terminal organ before sequencing
+  subsampling. The realized value is recorded as organ_total_cells_realized.
+  Manuscript/tutorial notation: O.
+
+organ.seq_fraction
+  Fraction of terminal organ cells sampled as observed/sequenced cells. The number
+  of sampled cells is ceil(seq_fraction * organ_total_cells), bounded between 1
+  and organ_total_cells. The realized value is recorded as sequenced_cells_used.</code></pre>
+<p>A compact module block therefore looks like this:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="er">&quot;modules&quot;:</span> <span class="fu">{</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;self_renewal&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;m&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;values&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">4</span><span class="ot">,</span> <span class="dv">8</span><span class="ot">,</span> <span class="dv">12</span><span class="ot">]</span> <span class="fu">},</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;rho&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;values&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="fl">0.0</span><span class="ot">,</span> <span class="fl">0.25</span><span class="ot">,</span> <span class="fl">1.0</span><span class="ot">]</span> <span class="fu">},</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;mu_year&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;values&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="fl">1.0</span><span class="ot">]</span> <span class="fu">},</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;victim_locality&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;values&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="fl">0.0</span><span class="ot">]</span> <span class="fu">},</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;bias_mode&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;values&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;fixed&quot;</span><span class="ot">]</span> <span class="fu">},</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;branch_bias_value&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;values&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="fl">0.0</span><span class="ot">]</span> <span class="fu">},</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;branch_bias_mean&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;values&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="fl">0.0</span><span class="ot">]</span> <span class="fu">},</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;branch_bias_kappa&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;values&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="fl">1.0</span><span class="ot">]</span> <span class="fu">}</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;pre_branching&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;sam_boundary_cells&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;values&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">64</span><span class="ot">]</span> <span class="fu">}</span></span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;branching&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;branch_precursor_number&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;values&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">1</span><span class="ot">,</span> <span class="dv">4</span><span class="ot">,</span> <span class="dv">16</span><span class="ot">]</span> <span class="fu">}</span></span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;organ&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;organ_precursor_number&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;values&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">1</span><span class="ot">,</span> <span class="dv">8</span><span class="ot">]</span> <span class="fu">},</span></span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;organ_total_cells&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;values&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">64</span><span class="ot">,</span> <span class="dv">4096</span><span class="ot">]</span> <span class="fu">},</span></span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;seq_fraction&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;values&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="fl">1.0</span><span class="ot">]</span> <span class="fu">}</span></span>
+<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h3 id="optional-phyllotaxy-settings">Optional phyllotaxy settings</h3>
+<p>Phyllotaxy is configured in the <code>topology</code> block, not in
+<code>simulation.modules</code>. The bundled no-phyllotaxy configs use
+<code>mode: &quot;off&quot;</code>. The spiral-phyllotaxy configs use
+<code>mode: &quot;spiral&quot;</code>.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="er">&quot;phyllotaxy&quot;:</span> <span class="fu">{</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;mode&quot;</span><span class="fu">:</span> <span class="st">&quot;off&quot;</span><span class="fu">,</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;divergence_angle_deg&quot;</span><span class="fu">:</span> <span class="fl">137.5</span><span class="fu">,</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;tie_tol&quot;</span><span class="fu">:</span> <span class="dv">1e-9</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<pre class="text"><code>phyllotaxy.mode
+  Phyllotaxy overlay mode. Allowed values are off, random, spiral, distichous,
+  tristichous, and decussate. Use off if no phyllotactic placement should be
+  imposed.
+
+phyllotaxy.divergence_angle_deg
+  Divergence angle in degrees for spiral phyllotaxy. The bundled spiral configs
+  use 137.5 degrees.
+
+phyllotaxy.tie_tol
+  Tolerance for grouping events that occur at effectively the same developmental
+  position before assigning phyllotactic placement.</code></pre>
+<h3 id="output-and-export-options">Output and export options</h3>
+<p>The main output/export options are stored directly under
+<code>simulation</code>:</p>
+<pre class="text"><code>simulation.n_sim
+  Number of replicate simulations per parameter combination.
+
+simulation.summaries
+  Whether summary tables are computed. This should normally be true.
+
+simulation.vaf_nbins
+  Number of bins for legacy binned VAF summaries. The main recommended VAF
+  output is the exact allele-count spectrum, not the legacy binned table.
+
+simulation.summary_private_shared
+  Whether private/shared summary statistics are computed.
+
+simulation.store_full_results
+  Whether full replicate-level internal JSON result objects are retained. This
+  can create large output folders and is usually false.
+
+simulation.export_raw_vafs
+  Whether raw VAF rows are exported. This can create large files and is usually
+  false.
+
+simulation.export_vaf_count_spectra
+  Whether exact allele-count/VAF spectra are exported. This is the recommended
+  VAF output and should normally be true.
+
+simulation.export_sharing_summaries
+  Whether aggregated among-organ sharing summaries are exported. This should
+  normally be true.
+
+simulation.export_replicate_sharing_summaries
+  Whether replicate-level sharing summaries are exported. Useful for downstream
+  uncertainty calculations, but larger than aggregated summaries.
+
+simulation.export_legacy_binned_vaf_summaries
+  Whether old aggregated binned-VAF summary files are exported. Usually false.
+
+simulation.export_legacy_binned_vaf_replicates
+  Whether old replicate-level binned-VAF files are exported. Usually false.</code></pre>
+<p>A typical compact output block is:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="er">&quot;simulation&quot;:</span> <span class="fu">{</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;mode&quot;</span><span class="fu">:</span> <span class="st">&quot;grid_parameter&quot;</span><span class="fu">,</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;n_sim&quot;</span><span class="fu">:</span> <span class="dv">10</span><span class="fu">,</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;summaries&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;vaf_nbins&quot;</span><span class="fu">:</span> <span class="dv">20</span><span class="fu">,</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;summary_private_shared&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;store_full_results&quot;</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;export_raw_vafs&quot;</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;export_vaf_count_spectra&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;export_sharing_summaries&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;export_replicate_sharing_summaries&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;export_legacy_binned_vaf_summaries&quot;</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;export_legacy_binned_vaf_replicates&quot;</span><span class="fu">:</span> <span class="kw">false</span></span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h3 id="topology-check-plotting-options">Topology-check plotting
+options</h3>
+<p>The <code>check.topology_plot</code> block controls the appearance of
+topology-check figures. These settings do not change the simulation.
+Most users can leave them unchanged. Commonly edited settings are:</p>
+<pre class="text"><code>check.topology_plot.enabled
+  Whether the topology-check plot is produced during check steps.
+
+check.topology_plot.fig_width, check.topology_plot.fig_height
+  Figure size in inches.
+
+check.topology_plot.dpi
+  Output resolution.
+
+check.topology_plot.y_ticks
+  Tick labels shown on the topology-coordinate axis. Use &quot;auto&quot; for automatic
+  ticks, or provide a comma-separated string such as &quot;0,50,100,150,200&quot;. If
+  manual ticks are outside the plotted coordinate range, simSOMA ignores them
+  and falls back to automatic ticks to avoid compressing small tutorial plots.
+
+check.topology_plot.y_label
+  Axis label for the topology-check plot. Use &quot;auto&quot; to derive the label from
+  the topology JSON unit. For example, years are labeled as &quot;Age (years)&quot;,
+  meters as &quot;Position (meters)&quot;, and steps as &quot;Self-renewal steps&quot;.
+
+check.topology_plot.show_nonterminal_organs
+  Whether organs that are not terminal tips should be shown in the topology
+  check plot.
+
+check.topology_plot.title
+  Plot title.</code></pre>
+<hr />
+<h2 id="run-the-quick-smoke-test">7. Run the quick smoke test</h2>
+<p>The fastest end-to-end test is:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/run_quick_test.sh</span></code></pre></div>
+<p>The script does three things:</p>
+<pre class="text"><code>1. Ensures .venv exists, using the same setup script as above if needed.
+2. Plots the quick-test topology.
+3. Runs a one-split quick simulation.</code></pre>
+<p>The main result folder is:</p>
+<pre class="text"><code>simSOMA_output/quick_test_2organs/grid_parameter/</code></pre>
+<hr />
+<h2 id="run-a-config-locally">8. Run a config locally</h2>
+<p>For normal local use, run:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="va">CFG</span><span class="op">=</span>simSOMA_configs/quick_test_2organs.json</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/run_config_local.sh <span class="st">&quot;</span><span class="va">$CFG</span><span class="st">&quot;</span></span></code></pre></div>
+<p>For a small local split run, assign the config and options first,
+then call the runner. This keeps each command line short and safe to
+copy from the PDF.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="va">CFG</span><span class="op">=</span>simSOMA_configs/simulation_04_organ_formation_rough.json</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">N_SPLITS</span><span class="op">=</span>4</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">N_PARALLEL_JOBS</span><span class="op">=</span>2</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">RUN_CHECK</span><span class="op">=</span>yes</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/run_config_local.sh <span class="st">&quot;</span><span class="va">$CFG</span><span class="st">&quot;</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a><span class="bu">unset</span> <span class="va">N_SPLITS</span> <span class="va">N_PARALLEL_JOBS</span> <span class="va">RUN_CHECK</span></span></code></pre></div>
+<p>Useful options:</p>
+<pre class="text"><code>N_SPLITS          number of split jobs
+N_PARALLEL_JOBS   number of parallel local jobs
+RUN_CHECK         yes/no; run topology/config check before simulation
+CLEANUP_SPLITS    yes/no; remove split folders after merging
+SPLIT_AXIS        parameter is the usual setting</code></pre>
+<p>For a first run, keep <code>RUN_CHECK=yes</code>. This uses the same
+topology-check script described above. Rechecking the same topology
+overwrites the generated <code>topology_plot.*</code> files for that
+topology.</p>
+<hr />
+<h2 id="run-on-a-cluster">9. Run on a cluster</h2>
+<p>On the cluster, clone the same Git repository once, or update an
+existing clone before running. For a first clone using SSH:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">&quot;</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:jlab-code/simSOMA.git</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> simSOMA</span></code></pre></div>
+<p>For an existing clone:</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/simSOMA&quot;</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull</span></code></pre></div>
+<p>If the repository is still private, the cluster must use a GitHub
+account or SSH key that has access to
+<code>jlab-code/simSOMA</code>.</p>
+<p>Use the same setup step as on a laptop:</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/01_setup_env.sh</span></code></pre></div>
+<p>The cluster wrapper then starts the run inside a detached
+<code>tmux</code> session. It does not require a scheduler. If
+<code>.venv</code> is missing, the wrapper calls the same setup script
+once before starting <code>tmux</code>; no separate cluster-specific
+environment setup is used. If <code>RUN_CLUSTER_CHECK=yes</code>, the
+wrapper uses the same topology-check script and overwrites the generated
+topology-check files for the same topology.</p>
+<p>From the project root on the cluster, assign the config and options
+first, then call the cluster wrapper:</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="va">CFG</span><span class="op">=</span>simSOMA_configs/quick_test_2organs.json</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PROJECT_DIR</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$PWD</span><span class="st">&quot;</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">SESSION</span><span class="op">=</span>simsoma_test</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">N_SPLITS</span><span class="op">=</span>20</span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">N_PARALLEL_JOBS</span><span class="op">=</span>4</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">RUN_CLUSTER_CHECK</span><span class="op">=</span>yes</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/cluster_prepare_and_start.sh <span class="st">&quot;</span><span class="va">$CFG</span><span class="st">&quot;</span></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a><span class="bu">unset</span> <span class="va">PROJECT_DIR</span> <span class="va">SESSION</span> <span class="va">N_SPLITS</span> <span class="va">N_PARALLEL_JOBS</span> <span class="va">RUN_CLUSTER_CHECK</span></span></code></pre></div>
+<p>For a larger run, increase <code>N_SPLITS</code> and
+<code>N_PARALLEL_JOBS</code>, for example:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="va">CFG</span><span class="op">=</span>simSOMA_configs/simulation_01_topology_depth_fine.json</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PROJECT_DIR</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$PWD</span><span class="st">&quot;</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">SESSION</span><span class="op">=</span>simsoma_simulation_01</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">N_SPLITS</span><span class="op">=</span>300</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">N_PARALLEL_JOBS</span><span class="op">=</span>20</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">CLEANUP_SPLITS</span><span class="op">=</span>yes</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">SPLIT_AXIS</span><span class="op">=</span>parameter</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">RUN_CLUSTER_CHECK</span><span class="op">=</span>yes</span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/cluster_prepare_and_start.sh <span class="st">&quot;</span><span class="va">$CFG</span><span class="st">&quot;</span></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a><span class="bu">unset</span> <span class="va">PROJECT_DIR</span> <span class="va">SESSION</span> <span class="va">N_SPLITS</span> <span class="va">N_PARALLEL_JOBS</span></span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a><span class="bu">unset</span> <span class="va">CLEANUP_SPLITS</span> <span class="va">SPLIT_AXIS</span> <span class="va">RUN_CLUSTER_CHECK</span></span></code></pre></div>
+<p>Monitor the run:</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-f</span> cluster_run.log</span></code></pre></div>
+<p>Attach to the <code>tmux</code> session:</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tmux</span> attach <span class="at">-t</span> simsoma_simulation_01</span></code></pre></div>
+<p>Detach from <code>tmux</code> without stopping the run:</p>
+<pre class="text"><code>Ctrl-b, then d</code></pre>
+<p>List relevant running processes:</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pgrep</span> <span class="at">-a</span> <span class="at">-u</span> <span class="st">&quot;</span><span class="va">$USER</span><span class="st">&quot;</span> <span class="at">-f</span> <span class="st">&#39;00_pipeline.sh|launch_grid_splits.py|run_from_config.py&#39;</span></span></code></pre></div>
+<hr />
+<h2 id="main-output-files">10. Main output files</h2>
+<p>After a successful run, the main output folder is:</p>
+<pre class="text"><code>simSOMA_output/&lt;experiment_name&gt;/grid_parameter/</code></pre>
+<p>For the quick test:</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="va">OUT</span><span class="op">=</span><span class="st">&quot;simSOMA_output/quick_test_2organs/grid_parameter&quot;</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> <span class="st">&quot;</span><span class="va">$OUT</span><span class="st">&quot;</span></span></code></pre></div>
+<p>Important files:</p>
+<pre class="text"><code>parameter_sets.csv
+aggregated_summaries.csv
+organ_aggregated_summaries.csv
+sharing_aggregated_summaries.csv
+vaf_count_spectrum_aggregated_summaries.csv
+sharing_replicate_summaries.csv.gz
+vaf_count_spectrum_replicate_summaries.csv.gz
+manifest.json
+split_plan.json</code></pre>
+<h3 id="parameter-sets">Parameter sets</h3>
+<div class="sourceCode" id="cb65"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-</span> <span class="op">&lt;&lt;&#39;PY&#39;</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="st">import pandas as pd</span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="st">out = &quot;simSOMA_output/quick_test_2organs/grid_parameter&quot;</span></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a><span class="st">params = pd.read_csv(f&quot;{out}/parameter_sets.csv&quot;)</span></span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a><span class="st">print(params.head())</span></span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a><span class="st">print(&quot;Number of parameter sets:&quot;, len(params))</span></span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a><span class="op">PY</span></span></code></pre></div>
+<h3 id="organ-level-summaries">Organ-level summaries</h3>
+<div class="sourceCode" id="cb66"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-</span> <span class="op">&lt;&lt;&#39;PY&#39;</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="st">import pandas as pd</span></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="st">out = &quot;simSOMA_output/quick_test_2organs/grid_parameter&quot;</span></span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a><span class="st">org = pd.read_csv(f&quot;{out}/organ_aggregated_summaries.csv&quot;)</span></span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a><span class="st">print(org.head())</span></span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a><span class="st">print(org.columns.tolist())</span></span>
+<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a><span class="op">PY</span></span></code></pre></div>
+<h3 id="vaf-count-spectra">VAF count spectra</h3>
+<div class="sourceCode" id="cb67"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-</span> <span class="op">&lt;&lt;&#39;PY&#39;</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="st">import pandas as pd</span></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="st">out = &quot;simSOMA_output/quick_test_2organs/grid_parameter&quot;</span></span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a><span class="st">vaf = pd.read_csv(f&quot;{out}/vaf_count_spectrum_aggregated_summaries.csv&quot;)</span></span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a><span class="st">print(vaf.head())</span></span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a><span class="st">print(vaf.columns.tolist())</span></span>
+<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a><span class="op">PY</span></span></code></pre></div>
+<p>The VAF spectrum table is the main output for allele-count/VAF
+distributions. It stores exact allele-count spectra and can be re-binned
+downstream.</p>
+<h3 id="variant-sharing-summaries">Variant sharing summaries</h3>
+<div class="sourceCode" id="cb68"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-</span> <span class="op">&lt;&lt;&#39;PY&#39;</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="st">import pandas as pd</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="st">out = &quot;simSOMA_output/quick_test_2organs/grid_parameter&quot;</span></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a><span class="st">sharing = pd.read_csv(f&quot;{out}/sharing_aggregated_summaries.csv&quot;)</span></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a><span class="st">print(sharing.head())</span></span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a><span class="st">print(sharing.columns.tolist())</span></span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a><span class="op">PY</span></span></code></pre></div>
+<hr />
+<h2 id="transform-vaf-spectra-with-an-observation-model">11. Transform
+VAF spectra with an observation model</h2>
+<p>The main simulator output represents a layer-equivalent developmental
+VAF spectrum. In some applications, the biological source of mutations
+and the way reads are observed are not the same thing. For example, a
+tissue may contain several independently mutating histogenic layers, and
+reads may be interpreted from a phased or collapsed assembly. The
+observation-model transform is a post-processing step. It does not rerun
+the developmental simulation and it does not modify the original
+<code>grid_parameter/</code> files. Instead, it reads an existing
+simSOMA output folder and writes a derived folder under:</p>
+<pre class="text"><code>simSOMA_output/&lt;experiment_name&gt;/observation_model_transforms/&lt;scenario_name&gt;/</code></pre>
+<p>The transform treats the simulated spectrum as a layer-equivalent
+template. For a multi-layer model, the template is copied to the
+requested source layers, and those copied variants are treated as
+distinct layer-specific mutations. The transform therefore does not
+assume that the same mutation is present in all layers.</p>
+<p>For deterministic layer weighting, the observed VAF is:</p>
+<pre class="text"><code>observed_vaf = source_vaf * effective_layer_contribution * phase_factor</code></pre>
+<p>In manuscript notation, <code>source_vaf</code> corresponds to the
+developmental source-layer VAF <code>v_io^(k)</code>,
+<code>effective_layer_contribution</code> corresponds to the layer
+contribution <code>a_k^(s)</code>, and <code>phase_factor</code>
+corresponds to the phasing factor <code>eta_s</code>. The transformed
+observed VAF is therefore:</p>
+<pre class="text"><code>v_tilde_io^(k,s) = eta_s * a_k^(s) * v_io^(k)</code></pre>
+<p>For bulk sampling, <code>effective_layer_contribution</code> is the
+user-specified layer weight and the weights across layers should sum to
+1. For layer-specific sampling, the target layer is observed with
+contribution 1.0 and non-target layers are not retained in the
+layer-specific output. The phase factor is 1.0 for phased observations
+and 0.5 for unphased observations.</p>
+<h3 id="three-layer-bulk-unphased-example">Three-layer bulk-unphased
+example</h3>
+<p>This example transforms the quick-test output into a three-layer
+bulk-unphased observation model with layer contributions L1 = 0.10, L2 =
+0.70, and L3 = 0.20.</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="va">RUN</span><span class="op">=</span>simSOMA_output/quick_test_2organs</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="va">SCENARIO</span><span class="op">=</span>three_layer_bulk_unphased_L1_0p1_L2_0p7_L3_0p2</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="va">LAYERS</span><span class="op">=</span>L1,L2,L3</span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="va">WEIGHTS</span><span class="op">=</span>0.10,0.70,0.20</span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a><span class="va">SAMPLING</span><span class="op">=</span>bulk</span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a><span class="va">PHASE</span><span class="op">=</span>unphased</span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">OVERWRITE</span><span class="op">=</span>yes</span>
+<span id="cb72-9"><a href="#cb72-9" aria-hidden="true" tabindex="-1"></a><span class="va">CMD</span><span class="op">=</span><span class="va">(</span>bash simSOMA_scripts/run_observation_model_transform.sh<span class="va">)</span></span>
+<span id="cb72-10"><a href="#cb72-10" aria-hidden="true" tabindex="-1"></a><span class="va">CMD</span><span class="op">+=</span><span class="va">(</span><span class="st">&quot;</span><span class="va">$RUN</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$SCENARIO</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$LAYERS</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$WEIGHTS</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb72-11"><a href="#cb72-11" aria-hidden="true" tabindex="-1"></a><span class="va">CMD</span><span class="op">+=</span><span class="va">(</span><span class="st">&quot;</span><span class="va">$SAMPLING</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$PHASE</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb72-12"><a href="#cb72-12" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span><span class="va">${CMD</span><span class="op">[@]</span><span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb72-13"><a href="#cb72-13" aria-hidden="true" tabindex="-1"></a><span class="bu">unset</span> <span class="va">OVERWRITE</span></span></code></pre></div>
+<p>The output folder is:</p>
+<pre class="text"><code>simSOMA_output/quick_test_2organs/observation_model_transforms/three_layer_bulk_unphased_L1_0p1_L2_0p7_L3_0p2/</code></pre>
+<p>Check the generated files:</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="va">OUT</span><span class="op">=</span>simSOMA_output/quick_test_2organs/observation_model_transforms/three_layer_bulk_unphased_L1_0p1_L2_0p7_L3_0p2</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> <span class="st">&quot;</span><span class="va">$OUT</span><span class="st">&quot;</span></span></code></pre></div>
+<p>Expected files:</p>
+<pre class="text"><code>observed_vaf_count_spectrum_aggregated_summaries.tsv
+observed_vaf_count_spectrum_replicate_summaries.tsv.gz
+observation_model_metadata.tsv
+manifest.tsv
+README.txt</code></pre>
+<p>Inspect the transformed aggregated spectrum:</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 20 <span class="st">&quot;</span><span class="va">$OUT</span><span class="st">/observed_vaf_count_spectrum_aggregated_summaries.tsv&quot;</span> <span class="kw">|</span> <span class="ex">column</span> <span class="at">-t</span> <span class="at">-s</span> <span class="st">$&#39;</span><span class="dt">\t</span><span class="st">&#39;</span></span></code></pre></div>
+<p>Inspect the transform metadata:</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$OUT</span><span class="st">/observation_model_metadata.tsv&quot;</span> <span class="kw">|</span> <span class="ex">column</span> <span class="at">-t</span> <span class="at">-s</span> <span class="st">$&#39;</span><span class="dt">\t</span><span class="st">&#39;</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$OUT</span><span class="st">/manifest.tsv&quot;</span> <span class="kw">|</span> <span class="ex">column</span> <span class="at">-t</span> <span class="at">-s</span> <span class="st">$&#39;</span><span class="dt">\t</span><span class="st">&#39;</span></span></code></pre></div>
+<p>Check the expected transformation for fixed source-layer
+variants:</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-</span> <span class="op">&lt;&lt;&#39;PY&#39;</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="st">import pandas as pd</span></span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a><span class="st">out = &quot;simSOMA_output/quick_test_2organs/observation_model_transforms/three_layer_bulk_unphased_L1_0p1_L2_0p7_L3_0p2&quot;</span></span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a><span class="st">d = pd.read_csv(f&quot;{out}/observed_vaf_count_spectrum_aggregated_summaries.tsv&quot;, sep=&quot;\t&quot;)</span></span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a><span class="st">fixed = d[d[&quot;source_vaf&quot;].round(6).eq(1.0)]</span></span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a><span class="st">cols = [&quot;source_layer&quot;, &quot;source_vaf&quot;, &quot;effective_layer_contribution&quot;, &quot;phase_factor&quot;, &quot;observed_vaf&quot;]</span></span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a><span class="st">print(fixed[cols].drop_duplicates().sort_values(&quot;source_layer&quot;).to_string(index=False))</span></span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a><span class="op">PY</span></span></code></pre></div>
+<p>For this bulk-unphased example, source-layer fixed variants should be
+shifted to approximately:</p>
+<pre class="text"><code>L1: 1.0 * 0.10 * 0.5 = 0.05
+L2: 1.0 * 0.70 * 0.5 = 0.35
+L3: 1.0 * 0.20 * 0.5 = 0.10</code></pre>
+<h3 id="layer-specific-example">Layer-specific example</h3>
+<p>This example observes only L2 in an unphased assembly. The effective
+layer contribution is 1.0 because the sample is layer-specific; the
+unphased factor is 0.5.</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="va">RUN</span><span class="op">=</span>simSOMA_output/quick_test_2organs</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="va">SCENARIO</span><span class="op">=</span>three_layer_L2_layer_specific_unphased</span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="va">LAYERS</span><span class="op">=</span>L1,L2,L3</span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a><span class="va">WEIGHTS</span><span class="op">=</span>0.10,0.70,0.20</span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a><span class="va">SAMPLING</span><span class="op">=</span>layer_specific</span>
+<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a><span class="va">PHASE</span><span class="op">=</span>unphased</span>
+<span id="cb80-7"><a href="#cb80-7" aria-hidden="true" tabindex="-1"></a><span class="va">TARGET</span><span class="op">=</span>L2</span>
+<span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-9"><a href="#cb80-9" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">OVERWRITE</span><span class="op">=</span>yes</span>
+<span id="cb80-10"><a href="#cb80-10" aria-hidden="true" tabindex="-1"></a><span class="va">CMD</span><span class="op">=</span><span class="va">(</span>bash simSOMA_scripts/run_observation_model_transform.sh<span class="va">)</span></span>
+<span id="cb80-11"><a href="#cb80-11" aria-hidden="true" tabindex="-1"></a><span class="va">CMD</span><span class="op">+=</span><span class="va">(</span><span class="st">&quot;</span><span class="va">$RUN</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$SCENARIO</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$LAYERS</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$WEIGHTS</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb80-12"><a href="#cb80-12" aria-hidden="true" tabindex="-1"></a><span class="va">CMD</span><span class="op">+=</span><span class="va">(</span><span class="st">&quot;</span><span class="va">$SAMPLING</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$PHASE</span><span class="st">&quot;</span> --target-layer <span class="st">&quot;</span><span class="va">$TARGET</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb80-13"><a href="#cb80-13" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span><span class="va">${CMD</span><span class="op">[@]</span><span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb80-14"><a href="#cb80-14" aria-hidden="true" tabindex="-1"></a><span class="bu">unset</span> <span class="va">OVERWRITE</span></span></code></pre></div>
+<p>A source-layer fixed variant in L2 should be transformed as:</p>
+<pre class="text"><code>observed_vaf = 1.0 * 1.0 * 0.5 = 0.5</code></pre>
+<p>The original simulation output remains unchanged. To remove only
+transformed observation outputs, delete the corresponding scenario
+folder under <code>observation_model_transforms/</code>.</p>
+<hr />
+<h2 id="extract-formula-statistics">12. Extract formula statistics</h2>
+<p>The formula-statistics extractor is a post-processing step that
+summarizes the VAF and sharing spectra into the statistics used in the
+manuscript: fixed fraction, intermediate fraction, private fraction, and
+normalized sharedness. It does not rerun the simulation and does not
+modify the primary output tables. These statistics are analysis
+summaries, not developmental hyperparameters. The extractor is designed
+to run on an experiment folder. It automatically looks for the primary
+simSOMA output and, if present, all observation-model transform folders
+with standardized table names. For the primary simSOMA output, the VAF
+used for fixed and intermediate calls is:</p>
+<pre class="text"><code>formula_vaf = sampled_vaf</code></pre>
+<p>For observation-model transformed outputs, fixed and intermediate
+calls are made relative to the expected fixed VAF under that observation
+scenario:</p>
+<pre class="text"><code>formula_vaf = observed_vaf / expected_fixed_observed_vaf</code></pre>
+<p>Thus, a layer-fixed mutation in a bulk-unphased scenario is
+classified as fixed at the VAF expected after layer weighting and
+phasing, not only at raw observed VAF = 1. The
+<code>LOW_THRESHOLD</code> parameter is therefore a relative threshold.
+For example, <code>LOW_THRESHOLD=0.05</code> means 5% of the
+scenario-specific fixed VAF.</p>
+<p>Private fraction and normalized sharedness are computed per focal
+organ. They are cross-organ statistics because they use the sharing
+degree of each variant across all sampled organs, but each organ-level
+output row answers the question: among variants observed in this organ,
+what fraction is private, and how broadly shared are they?</p>
+<p>Run the extractor on an experiment folder:</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="va">RUN</span><span class="op">=</span>simSOMA_output/quick_test_2organs</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/run_extract_formula_statistics.sh <span class="st">&quot;</span><span class="va">$RUN</span><span class="st">&quot;</span></span></code></pre></div>
+<p>This command searches for:</p>
+<pre class="text"><code>simSOMA_output/&lt;experiment_name&gt;/grid_parameter/vaf_count_spectrum_aggregated_summaries.csv
+simSOMA_output/&lt;experiment_name&gt;/observation_model_transforms/*/observed_vaf_count_spectrum_aggregated_summaries.tsv</code></pre>
+<p>If multiple observation scenarios are present, the extractor runs on
+all of them. Existing <code>formula_statistics_tables/</code> folders
+are overwritten. The primary-output statistics are written to:</p>
+<pre class="text"><code>simSOMA_output/&lt;experiment_name&gt;/grid_parameter/formula_statistics_tables/</code></pre>
+<p>Observation-transform statistics are written inside each scenario
+folder:</p>
+<pre class="text"><code>simSOMA_output/&lt;experiment_name&gt;/observation_model_transforms/&lt;scenario_name&gt;/formula_statistics_tables/</code></pre>
+<p>Each statistics folder contains:</p>
+<pre class="text"><code>organ_level_formula_statistics.tsv
+parameter_set_formula_statistics_summary.tsv
+statistic_definitions.tsv
+extraction_run_summary.tsv</code></pre>
+<p>The experiment folder also receives a manifest of all processed
+sources:</p>
+<pre class="text"><code>formula_statistics_extraction_manifest.tsv</code></pre>
+<h3 id="output-levels">Output levels</h3>
+<p>The extractor writes two analysis levels.</p>
+<pre class="text"><code>organ_level_formula_statistics.tsv
+  One row per set_id x organ_id.
+  This is the detailed diagnostic table.
+
+parameter_set_formula_statistics_summary.tsv
+  One row per set_id x statistic.
+  This is the figure-ready table.</code></pre>
+<p>The parameter-set summary is built from the organ-level table. For
+each <code>set_id</code> and each statistic, the extractor averages the
+organ-level values across sampled organs and computes their standard
+deviation, minimum, median, and maximum. The summary columns are
+<code>organ_mean</code>, <code>organ_sd</code>, <code>organ_min</code>,
+<code>organ_median</code>, <code>organ_max</code>, and
+<code>n_organs_with_stat</code>. The summary table is therefore
+conditioned only on the fixed combinatorial parameter setting,
+represented by <code>set_id</code>. The input parameter values for that
+<code>set_id</code> are then copied from:</p>
+<pre class="text"><code>simSOMA_output/&lt;experiment_name&gt;/grid_parameter/parameter_sets.csv</code></pre>
+<p>This means that the summary table keeps true config/grid input
+parameters, such as <code>m</code>, <code>rho</code>,
+<code>sam_boundary_cells</code>, <code>branch_precursor_number</code>,
+<code>organ_precursor_number</code>, <code>organ_total_cells</code>, and
+<code>seq_fraction</code>, but it does not group by organ-derived
+descriptors. For example, <code>n_bottlenecks_root_to_organ</code> is an
+organ-level descriptor, not a simulation input parameter, and should not
+split the parameter-set summary.</p>
+<p>For Figure-style plotting, use:</p>
+<pre class="text"><code>parameter_set_formula_statistics_summary.tsv</code></pre>
+<p>and plot:</p>
+<pre class="text"><code>organ_mean  = point or line value
+organ_sd    = organ-to-organ standard deviation</code></pre>
+<p>For the bundled quick test, there is one parameter combination and
+two sampled organs. The expected summary table therefore has:</p>
+<pre class="text"><code>1 parameter setting x 4 statistics = 4 rows
+n_organs_with_stat = 2 for each statistic</code></pre>
+<p>For a larger grid scan, the expected number of rows is:</p>
+<pre class="text"><code>number of parameter combinations x number of statistics</code></pre>
+<p>With the default four statistics, this is:</p>
+<pre class="text"><code>number of parameter combinations x 4</code></pre>
+<h3 id="inspect-the-output">Inspect the output</h3>
+<p>Inspect the generated files:</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="va">RUN</span><span class="op">=</span>simSOMA_output/quick_test_2organs</span>
+<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> <span class="st">&quot;</span><span class="va">$RUN</span><span class="st">&quot;</span> <span class="at">-path</span> <span class="st">&#39;*/formula_statistics_tables/*&#39;</span> <span class="at">-type</span> f <span class="at">-print</span></span>
+<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> <span class="st">&quot;</span><span class="va">$RUN</span><span class="st">&quot;</span> <span class="at">-name</span> <span class="st">&#39;formula_statistics_extraction_manifest.tsv&#39;</span> <span class="at">-print</span></span></code></pre></div>
+<p>Inspect the primary organ-level statistics:</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="va">RUN</span><span class="op">=</span>simSOMA_output/quick_test_2organs</span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="va">STATS</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$RUN</span><span class="st">/grid_parameter/formula_statistics_tables&quot;</span></span>
+<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 20 <span class="st">&quot;</span><span class="va">$STATS</span><span class="st">/organ_level_formula_statistics.tsv&quot;</span> <span class="kw">|</span> <span class="ex">column</span> <span class="at">-t</span> <span class="at">-s</span> <span class="st">$&#39;</span><span class="dt">\t</span><span class="st">&#39;</span></span></code></pre></div>
+<p>Inspect the parameter-set-level summary:</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="va">RUN</span><span class="op">=</span>simSOMA_output/quick_test_2organs</span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a><span class="va">STATS</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$RUN</span><span class="st">/grid_parameter/formula_statistics_tables&quot;</span></span>
+<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 20 <span class="st">&quot;</span><span class="va">$STATS</span><span class="st">/parameter_set_formula_statistics_summary.tsv&quot;</span> <span class="kw">|</span> <span class="ex">column</span> <span class="at">-t</span> <span class="at">-s</span> <span class="st">$&#39;</span><span class="dt">\t</span><span class="st">&#39;</span></span></code></pre></div>
+<p>Check how many parameter combinations and organs were summarized:</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-</span> <span class="op">&lt;&lt;&#39;PY&#39;</span></span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a><span class="st">import pandas as pd</span></span>
+<span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-4"><a href="#cb100-4" aria-hidden="true" tabindex="-1"></a><span class="st">run = &quot;simSOMA_output/quick_test_2organs&quot;</span></span>
+<span id="cb100-5"><a href="#cb100-5" aria-hidden="true" tabindex="-1"></a><span class="st">params = pd.read_csv(f&quot;{run}/grid_parameter/parameter_sets.csv&quot;)</span></span>
+<span id="cb100-6"><a href="#cb100-6" aria-hidden="true" tabindex="-1"></a><span class="st">summary = pd.read_csv(f&quot;{run}/grid_parameter/formula_statistics_tables/parameter_set_formula_statistics_summary.tsv&quot;, sep=&quot;\t&quot;)</span></span>
+<span id="cb100-7"><a href="#cb100-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-8"><a href="#cb100-8" aria-hidden="true" tabindex="-1"></a><span class="st">print(&quot;Number of parameter combinations:&quot;, len(params))</span></span>
+<span id="cb100-9"><a href="#cb100-9" aria-hidden="true" tabindex="-1"></a><span class="st">print(&quot;Statistics in summary:&quot;, sorted(summary[&quot;statistic&quot;].unique()))</span></span>
+<span id="cb100-10"><a href="#cb100-10" aria-hidden="true" tabindex="-1"></a><span class="st">print(&quot;Rows in summary table:&quot;, len(summary))</span></span>
+<span id="cb100-11"><a href="#cb100-11" aria-hidden="true" tabindex="-1"></a><span class="st">print(&quot;n_organs_with_stat values:&quot;, sorted(summary[&quot;n_organs_with_stat&quot;].dropna().unique()))</span></span>
+<span id="cb100-12"><a href="#cb100-12" aria-hidden="true" tabindex="-1"></a><span class="op">PY</span></span></code></pre></div>
+<p>Inspect the statistic definitions:</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="va">RUN</span><span class="op">=</span>simSOMA_output/quick_test_2organs</span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a><span class="va">STATS</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$RUN</span><span class="st">/grid_parameter/formula_statistics_tables&quot;</span></span>
+<span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$STATS</span><span class="st">/statistic_definitions.tsv&quot;</span> <span class="kw">|</span> <span class="ex">column</span> <span class="at">-t</span> <span class="at">-s</span> <span class="st">$&#39;</span><span class="dt">\t</span><span class="st">&#39;</span></span></code></pre></div>
+<p>If an observation-model transform exists, inspect its summary in the
+same way:</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="va">RUN</span><span class="op">=</span>simSOMA_output/quick_test_2organs</span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a><span class="va">SCENARIO</span><span class="op">=</span>three_layer_bulk_unphased_L1_0p1_L2_0p7_L3_0p2</span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a><span class="va">STATS</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$RUN</span><span class="st">/observation_model_transforms/</span><span class="va">$SCENARIO</span><span class="st">/formula_statistics_tables&quot;</span></span>
+<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 20 <span class="st">&quot;</span><span class="va">$STATS</span><span class="st">/parameter_set_formula_statistics_summary.tsv&quot;</span> <span class="kw">|</span> <span class="ex">column</span> <span class="at">-t</span> <span class="at">-s</span> <span class="st">$&#39;</span><span class="dt">\t</span><span class="st">&#39;</span></span>
+<span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$STATS</span><span class="st">/statistic_definitions.tsv&quot;</span> <span class="kw">|</span> <span class="ex">column</span> <span class="at">-t</span> <span class="at">-s</span> <span class="st">$&#39;</span><span class="dt">\t</span><span class="st">&#39;</span></span></code></pre></div>
+<p>Use a different relative low-VAF threshold if needed:</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="va">RUN</span><span class="op">=</span>simSOMA_output/quick_test_2organs</span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">LOW_THRESHOLD</span><span class="op">=</span>0.05</span>
+<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/run_extract_formula_statistics.sh <span class="st">&quot;</span><span class="va">$RUN</span><span class="st">&quot;</span></span>
+<span id="cb103-4"><a href="#cb103-4" aria-hidden="true" tabindex="-1"></a><span class="bu">unset</span> <span class="va">LOW_THRESHOLD</span></span></code></pre></div>
+<p>Optional fixed filters can be passed through
+<code>FIXED_FILTERS</code>, for example:</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="va">RUN</span><span class="op">=</span>simSOMA_output/quick_test_2organs</span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">LOW_THRESHOLD</span><span class="op">=</span>0.05</span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">FIXED_FILTERS</span><span class="op">=</span><span class="st">&quot;--fixed rho=0 --fixed m=min,max&quot;</span></span>
+<span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/run_extract_formula_statistics.sh <span class="st">&quot;</span><span class="va">$RUN</span><span class="st">&quot;</span></span>
+<span id="cb104-5"><a href="#cb104-5" aria-hidden="true" tabindex="-1"></a><span class="bu">unset</span> <span class="va">LOW_THRESHOLD</span> <span class="va">FIXED_FILTERS</span></span></code></pre></div>
+<h2 id="clean-reruns">13. Clean reruns</h2>
+<p>If you rerun with the same <code>experiment_name</code>, remove the
+previous output first:</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> simSOMA_output/quick_test_2organs</span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> simSOMA_output/quick_test_2organs__psplit_<span class="pp">*</span></span></code></pre></div>
+<p>Then rerun:</p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="va">CFG</span><span class="op">=</span>simSOMA_configs/quick_test_2organs.json</span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/run_config_local.sh <span class="st">&quot;</span><span class="va">$CFG</span><span class="st">&quot;</span></span></code></pre></div>
+<p>For publication-scale or cluster-scale runs, it is often safer to use
+a new <code>experiment_name</code> rather than overwriting an old
+result. These generated output folders are ignored by Git and should
+remain local unless you deliberately archive them elsewhere.</p>
+<hr />
+<h2 id="common-problems">14. Common problems</h2>
+<h3 id="venv-is-missing"><code>.venv</code> is missing</h3>
+<p>Run the setup script from the project root:</p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/01_setup_env.sh</span></code></pre></div>
+<h3 id="python-version-is-rejected">Python version is rejected</h3>
+<p>The default workflow expects Python 3.11. First try the standard
+setup command:</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/01_setup_env.sh</span></code></pre></div>
+<p>If Conda is installed in a non-standard location, provide
+<code>CONDA_SH</code> explicitly:</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">CONDA_SH</span><span class="op">=</span><span class="va">$HOME</span>/miniconda3/etc/profile.d/conda.sh</span>
+<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/01_setup_env.sh</span>
+<span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a><span class="bu">unset</span> <span class="va">CONDA_SH</span></span></code></pre></div>
+<p>If you already know the path to a Python 3.11 interpreter, provide it
+explicitly:</p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="va">PYTHON_BIN</span><span class="op">=</span>/path/to/python3.11 <span class="fu">bash</span> simSOMA_scripts/01_setup_env.sh</span></code></pre></div>
+<p>Do not use <code>SIMSOMA_ALLOW_OTHER_PYTHON=1</code> for normal runs.
+It is only an emergency override for users who deliberately accept
+non-reproducible Python versions.</p>
+<h3 id="the-config-path-is-not-found">The config path is not found</h3>
+<p>Make sure you are in the Git repository root:</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span></span>
+<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> simSOMA_configs</span></code></pre></div>
+<p>Then run with a path relative to the project root:</p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="va">CFG</span><span class="op">=</span>simSOMA_configs/quick_test_2organs.json</span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/run_config_local.sh <span class="st">&quot;</span><span class="va">$CFG</span><span class="st">&quot;</span></span></code></pre></div>
+<p>If you are in an older non-Git copy such as
+<code>simSOMA_beta</code>, stop and switch to the Git-controlled
+repository before running or editing the pipeline.</p>
+<h3 id="git-pull-or-git-clone-fails-on-the-private-repository"><code>git pull</code>
+or <code>git clone</code> fails on the private repository</h3>
+<p>If the repository is still private, the machine must authenticate to
+GitHub with an account or SSH key that has access to
+<code>jlab-code/simSOMA</code>.</p>
+<p>For SSH clones, test access with:</p>
+<div class="sourceCode" id="cb113"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="at">-T</span> git@github.com</span></code></pre></div>
+<p>For HTTPS clones, GitHub may require a personal access token rather
+than a password.</p>
+<h3 id="the-topology-check-was-overwritten">The topology check was
+overwritten</h3>
+<p>Topology checks are written to
+<code>simSOMA_output/topology_check/&lt;topology_json_name&gt;/</code>.
+Rerunning the check for the same topology overwrites the previous
+<code>topology_plot.*</code> files. This is intentional, because the
+folder represents the current version of that topology file.</p>
+<p>To preserve multiple versions, either rename the topology JSON file
+or set a custom output folder:</p>
+<div class="sourceCode" id="cb114"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="va">TOPO</span><span class="op">=</span>simSOMA_inputs/examples/quick_test_2organs_topology.json</span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">OUTDIR</span><span class="op">=</span>simSOMA_output/topology_check/my_saved_check</span>
+<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/check_topology.sh <span class="st">&quot;</span><span class="va">$TOPO</span><span class="st">&quot;</span></span>
+<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a><span class="bu">unset</span> <span class="va">OUTDIR</span></span></code></pre></div>
+<h3 id="a-tmux-session-already-exists">A <code>tmux</code> session
+already exists</h3>
+<p>Attach to it:</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tmux</span> attach <span class="at">-t</span> simsoma_test</span></code></pre></div>
+<p>or choose a different session name:</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="va">CFG</span><span class="op">=</span>simSOMA_configs/quick_test_2organs.json</span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">SESSION</span><span class="op">=</span>simsoma_test_02</span>
+<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> simSOMA_scripts/cluster_prepare_and_start.sh <span class="st">&quot;</span><span class="va">$CFG</span><span class="st">&quot;</span></span>
+<span id="cb116-4"><a href="#cb116-4" aria-hidden="true" tabindex="-1"></a><span class="bu">unset</span> <span class="va">SESSION</span></span></code></pre></div>
+</body>
+</html>
