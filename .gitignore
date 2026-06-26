@@ -26,3 +26,7 @@ __pycache__/
 *.zip
 *.tar.gz
 *.tgz
+
+# Local tutorial build files
+render_tutorial.sh
+tutorial_style.css
