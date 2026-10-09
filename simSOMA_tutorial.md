@@ -425,7 +425,7 @@ cat > my_project/my_layers.json <<'EOF'
   },
   "observation": {
     "phase": "unphased",
-    "layer_contributions": {"L1": 0.3, "L2": 0.6, "L3": 0.1},
+    "layer_contributions": {"L1": 0.13, "L2": 0.84, "L3": 0.03},
     "model": {
       "depth": {"mode": "lognormal_site_sample", "mean": 60},
       "reads": {"type": "binomial", "sequencing_error": 0.0},
@@ -450,7 +450,7 @@ The main settings of `my_project/my_layers.json` (open it in a text editor):
 | Setting | Meaning |
 |---|---|
 | `simulation.layers` | the layers and their mutation rates `mu_unit` |
-| `observation.layer_contributions` | share of each layer's cells in the sampled tissue (sums to 1; example values) |
+| `observation.layer_contributions` | share of each layer's cells in the sampled tissue (sums to 1; here the mean of published leaf compositions) |
 | `observation.phase` | `unphased`: reads of both chromosome copies pooled, so a heterozygous mutation gives VAF ≤ 0.5; `phased`: reads assigned to one copy |
 | `observation.model.depth` | sequencing depth (mean 60; varies between sites and samples) |
 | `observation.model.caller` | when a mutation counts as detected (e.g. at least 2 reads) |
@@ -463,15 +463,14 @@ per organ, plus a `default` for all organs not listed:
 
 ```json
 "layer_contributions": {
-  "leaf_top": {"L1": 0.2, "L2": 0.7, "L3": 0.1},
-  "default":  {"L1": 0.3, "L2": 0.6, "L3": 0.1}
+  "leaf_top": {"L1": 0.25, "L2": 0.70, "L3": 0.05},
+  "default":  {"L1": 0.13, "L2": 0.84, "L3": 0.03}
 }
 ```
 
-Each mixture must sum to 1. The template's values (L1 0.13, L2 0.84, L3 0.03) are the mean of
-published leaf compositions; sources and details are in `simSOMA_docs/layered_simulation.md` in
-the simSOMA repository. This tutorial uses L1 0.3, L2 0.6, L3 0.1 instead, so that the L1 and
-L3 mutations stand out from the background in the figure.
+Each mixture must sum to 1. The values used above (L1 0.13, L2 0.84, L3 0.03, also the
+template's defaults) are the mean of published leaf compositions; sources and details are in
+`simSOMA_docs/layered_simulation.md` in the simSOMA repository.
 
 Each replicate folder (`simSOMA_output/my_tree_layers/replicate_0000/`) contains:
 
@@ -506,6 +505,7 @@ for layer, d in called.groupby("site_layer"):
 ax.set_xlabel("observed VAF (alt reads / depth)")
 ax.set_ylabel("called sites")
 ax.set_yscale("log")
+ax.set_ylim(top=ax.get_ylim()[1] * 6)          # room for the legend
 ax.set_title(f"{organ}: called sites by origin")
 ax.legend(frameon=False)
 fig.tight_layout()
@@ -516,13 +516,14 @@ EOF
 python3 my_project/plot_layers.py simSOMA_output/my_tree_layers leaf_A
 ```
 
-![Called mutations in leaf_A by layer of origin.](images/layers_called_vaf.png){width=60%}
+![Called mutations in leaf_A by layer of origin, for a leaf made of 13% L1, 84% L2 and 3% L3 cells (unphased, mean depth 60).](images/layers_called_vaf.png){width=60%}
 
-A mutation fixed in L2 is carried by 60% of the sampled cells and, being heterozygous,
-by half of their DNA copies, so it appears at VAF ≈ 0.6 × 0.5 = 0.3. Fixed L1 mutations
-appear at about 0.15, where they are easy to confuse with L2 mutations carried by only part
-of the leaf; fixed L3 mutations (≈ 0.05) fall among the background artefacts. Layer
-composition therefore matters when mutations are counted in bulk samples.
+A mutation fixed in L2 is carried by 84% of the sampled cells and, being heterozygous, by
+half of their DNA copies, so it appears at VAF ≈ 0.84 × 0.5 = 0.42. Even fixed L1 mutations
+reach only 0.13 × 0.5 ≈ 0.07, and L3 mutations ≈ 0.015: in bulk leaf DNA they fall among the
+background artefacts and L2 mutations carried by only part of the leaf. Layer composition
+therefore decides which mutations can be detected in bulk samples; try other mixtures in
+`my_project/my_layers.json` to see the effect.
 
 > **Using the main workflow instead.** A settings file for `simsoma run` can also carry an
 > `observation_model` block, which converts the result tables to observed VAFs and can export
