@@ -17,7 +17,7 @@ This tutorial takes about **45 minutes**. You will:
 4. *optional:* turn simulated cells into sequencing reads, use a laser-scanned tree, and
    run larger parameter scans (10 min each).
 
-Every command was tested with simSOMA 0.2.1 on Linux. Copy them into a terminal in the order
+Every command was tested with simSOMA 0.2.2 on Linux. Copy them into a terminal in the order
 shown. Lines starting with `#` are comments.
 
 > **What you need:** Linux or macOS, Python 3.10 or newer, and `git`. On Windows, use WSL
@@ -45,7 +45,7 @@ You should see something like this (`plantsoma_obs` is simSOMA's sequencing-read
 
 ```text
 {
-  "simsoma": "0.2.1",
+  "simsoma": "0.2.2",
   "plantsoma_obs": "1.1.0",
   ...
 }
@@ -368,7 +368,7 @@ How to read the three panels:
   Mutations found in all four leaves arose in the trunk meristem before the first branch and
   were passed into every branch. Turnover increases their number.
 
-With the same settings, seed and simSOMA version (0.2.1), your numbers should be identical.
+With the same settings and seed, your numbers should be identical (tested with simSOMA 0.2.1 and 0.2.2).
 
 ## 3.3 Summary statistics (optional)
 
@@ -455,6 +455,23 @@ The main settings of `my_project/my_layers.json` (open it in a text editor):
 | `observation.model.depth` | sequencing depth (mean 60; varies between sites and samples) |
 | `observation.model.caller` | when a mutation counts as detected (e.g. at least 2 reads) |
 | `observation.model.background` | false-positive sites (sequencing or mapping artefacts) with a low VAF in every sample |
+
+**Choosing layer mixtures.** All layer settings are yours to choose: which layers to
+simulate, their mutation rates, and how much each layer contributes to a sample. Organs can
+differ, for example a leaf dominated by L2 and a fruit with a large L3 share. Give one mixture
+per organ, plus a `default` for all organs not listed:
+
+```json
+"layer_contributions": {
+  "leaf_top": {"L1": 0.2, "L2": 0.7, "L3": 0.1},
+  "default":  {"L1": 0.3, "L2": 0.6, "L3": 0.1}
+}
+```
+
+Each mixture must sum to 1. The template's values (L1 0.13, L2 0.84, L3 0.03) are the mean of
+published leaf compositions; sources and details are in `simSOMA_docs/layered_simulation.md` in
+the simSOMA repository. This tutorial uses L1 0.3, L2 0.6, L3 0.1 instead, so that the L1 and
+L3 mutations stand out from the background in the figure.
 
 Each replicate folder (`simSOMA_output/my_tree_layers/replicate_0000/`) contains:
 

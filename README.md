@@ -10,7 +10,7 @@ Contents: install and first run · describe your own tree · read and plot the r
 sequencing reads from layered organs · trees from terrestrial laser scans · larger runs ·
 reference and troubleshooting.
 
-Written for simSOMA 0.2.1 or later.
+Written for simSOMA 0.2.2 or later.
 
 ## Files
 
