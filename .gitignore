@@ -1,32 +1,12 @@
-# Temporary/editor files
 .DS_Store
 *~
 .vscode/
 .idea/
-
-# Python/cache files
 __pycache__/
 *.pyc
-.ipynb_checkpoints/
-
-# Pandoc/LaTeX/HTML temporary files
-*.aux
-*.log
-*.out
-*.toc
-*.fls
-*.fdb_latexmk
-*.synctex.gz
-*_files/
-
-# Optional generated PDF or local exports
 *.pdf
-
-# Local archives
 *.zip
 *.tar.gz
-*.tgz
-
-# Local tutorial build files
-render_tutorial.sh
-tutorial_style.css
+# files created when running the tutorial commands inside this folder
+simSOMA_output/
+my_project/
