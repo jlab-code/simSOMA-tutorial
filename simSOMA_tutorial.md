@@ -17,7 +17,7 @@ This tutorial takes about **45 minutes**. You will:
 4. *optional:* turn simulated cells into sequencing reads, use a laser-scanned tree, and
    run larger parameter scans (10 min each).
 
-Every command was tested with simSOMA 0.2.2 on Linux. Copy them into a terminal in the order
+Every command was tested with simSOMA 0.3.0 on Linux. Copy them into a terminal in the order
 shown. Lines starting with `#` are comments.
 
 > **What you need:** Linux or macOS, Python 3.10 or newer, and `git`. On Windows, use WSL
@@ -45,8 +45,8 @@ You should see something like this (`plantsoma_obs` is simSOMA's sequencing-read
 
 ```text
 {
-  "simsoma": "0.2.2",
-  "plantsoma_obs": "1.1.0",
+  "simsoma": "0.3.0",
+  "plantsoma_obs": "1.1.1",
   ...
 }
 ```
@@ -206,7 +206,7 @@ What the parts mean:
 | | `seed` | random seed; the same seed gives the same results |
 | `topology` | `topology_json` | the plant file (path relative to the folder of this settings file) |
 | | `mapping_unit` | unit of the plant file: `years` or `meters` |
-| | `mapping_rate` | stem-cell divisions (self-renewal rounds) per year or per meter (κ) |
+| | `mapping_rate` | stem-cell divisions (self-renewal rounds) per year or per meter (κ~sr~) |
 | `check` | `topology_plot` | optional drawing options (here: show organ names, add a title) |
 | `simulation` | `n_sim` | number of independent simulations per parameter setting |
 | | `modules` | developmental parameters, explained in the table below |
@@ -217,7 +217,7 @@ The developmental parameters (symbols as in the simSOMA paper):
 |---|---|---|---|
 | `m` | m | number of stem cells in the meristem (per layer) | 4 |
 | `rho` | ρ | stem-cell turnover: chance per division round that one stem cell is replaced by the daughter of another | 0 and 1 |
-| `mu_unit` | μ | mutations per cell lineage per year (or meter) | 1 |
+| `mu_unit` | μ~unit~ | mutations per cell lineage per year (or meter) | 1 |
 | `sam_boundary_cells` | C | cells at the meristem edge from which new branches and organs are recruited | 40 |
 | `branch_precursor_number` | P~b~ | cells that found a new branch meristem | 4 |
 | `organ_precursor_number` | P~o~ | cells that found an organ | 8 |
@@ -230,8 +230,8 @@ to compare several values (`"rho": {"values": [0.0, 1.0]}`). simSOMA runs every 
 of all listed values, each `n_sim` times. Here: 2 values of ρ × 10 simulations.
 
 > **Mutation rate.** `mu_unit` counts mutations per *cell lineage* per year (or meter). For a
-> rate μ~bp~ per base pair per year (or meter) and a diploid genome of G base pairs, set
-> `mu_unit = 2 × G × μ_bp`. A relative value such as 1 is fine for exploring: the shape of the
+> rate μ per base pair per year (or meter) and a diploid plant with a haploid genome of G base
+> pairs, set `mu_unit = 2 × G × μ`. A relative value such as 1 is fine for exploring: the shape of the
 > VAF spectrum does not depend on it, only the number of mutations.
 
 ## 2.3 Check the plant, then run
@@ -368,7 +368,9 @@ How to read the three panels:
   Mutations found in all four leaves arose in the trunk meristem before the first branch and
   were passed into every branch. Turnover increases their number.
 
-With the same settings and seed, your numbers should be identical (tested with simSOMA 0.2.1 and 0.2.2).
+With the same settings and seed, your numbers should be identical (tested with simSOMA 0.3.0;
+versions up to 0.2.3 draw different random numbers for the same seed, so their numbers differ
+slightly).
 
 ## 3.3 Summary statistics (optional)
 
@@ -590,7 +592,7 @@ nohup simsoma run my_project/big_config.json --splits 20 --jobs 20 > big_run.log
 tail -f big_run.log
 ```
 
-Run time grows with the number of sampled organs, `organ_total_cells`, the plant size × κ,
+Run time grows with the number of sampled organs, `organ_total_cells`, the plant size × κ~sr~,
 and `n_sim`. Try your settings with `n_sim` = 2 first.
 
 ---
@@ -649,4 +651,5 @@ Organs can also sit along a branch (`pos` < 1), for example several leaves on on
 If you use simSOMA, please cite the paper, *simSOMA: a cell-lineage based simulator of the
 somatic VAF spectrum in plants* (bioRxiv 2026,
 [doi:10.64898/2026.06.28.735079](https://doi.org/10.64898/2026.06.28.735079)), and the
-software version you used (`simsoma version`).
+software version you used (`simsoma version`; version 0.3.0 is archived on Zenodo,
+[doi:10.5281/zenodo.24387363](https://doi.org/10.5281/zenodo.24387363)).
